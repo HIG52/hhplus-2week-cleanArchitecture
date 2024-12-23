@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: hhplus-2week-cleanArchitecture
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  logging:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    level:
+      root: INFO
+      com.your.package: DEBUG
+    pattern:
+      console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
