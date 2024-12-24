@@ -1,7 +1,7 @@
 package com.hjy.lecture.hhplus2weekcleanarchitecture.application.service;
 
-import com.hjy.lecture.hhplus2weekcleanarchitecture.datasource.repository.LectureStudentRepository;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.business.entity.LectureStudent;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.repository.LectureStudentRepository;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.LectureStudent;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureRequestDTO;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;

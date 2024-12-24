@@ -1,4 +1,4 @@
-package com.hjy.lecture.hhplus2weekcleanarchitecture.business.entity;
+package com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
