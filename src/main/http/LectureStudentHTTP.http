@@ -1,0 +1,9 @@
+### 강의 수강신청시 인원 등록
+POST http://localhost:8080/api/v1/lectures/2/apply
+Content-Type: application/json
+
+{
+  "userId" : 30
+}
+
+###
