@@ -10,6 +10,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3307/mysqldb
+    username: user
+    password: password
   logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace

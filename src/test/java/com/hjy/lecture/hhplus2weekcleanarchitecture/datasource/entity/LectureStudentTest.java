@@ -1,5 +1,6 @@
 package com.hjy.lecture.hhplus2weekcleanarchitecture.datasource.entity;
 
+import com.hjy.lecture.hhplus2weekcleanarchitecture.business.entity.LectureStudent;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -17,8 +18,8 @@ public class LectureStudentTest {
 
         //then
         assertThat(lectureStudent).isNotNull();
-        assertThat(lectureStudent.getLectureId()).isEqualTo(lectureId);
-        assertThat(lectureStudent.getUserId()).isEqualTo(userId);
+        assertThat(lectureStudent.getLectureId().getLectureId()).isEqualTo(lectureId);
+        assertThat(lectureStudent.getLectureId().getUserId()).isEqualTo(userId);
     }
 
 }
