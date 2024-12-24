@@ -1,4 +1,4 @@
-package com.hjy.lecture.hhplus2weekcleanarchitecture;
+package com.hjy.lecture.hhplus2weekcleanarchitecture.business.service;
 
 import org.junit.jupiter.api.Test;
 

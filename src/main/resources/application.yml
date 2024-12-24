@@ -6,7 +6,7 @@ spring:
     name: hhplus-2week-cleanArchitecture
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true

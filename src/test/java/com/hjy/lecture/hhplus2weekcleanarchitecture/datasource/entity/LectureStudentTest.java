@@ -1,4 +1,4 @@
-package com.hjy.lecture.hhplus2weekcleanarchitecture;
+package com.hjy.lecture.hhplus2weekcleanarchitecture.datasource.entity;
 
 import org.junit.jupiter.api.Test;
 

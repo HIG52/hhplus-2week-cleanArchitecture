@@ -1,4 +1,4 @@
-package com.hjy.lecture.hhplus2weekcleanarchitecture;
+package com.hjy.lecture.hhplus2weekcleanarchitecture.datasource.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
