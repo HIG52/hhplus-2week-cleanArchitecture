@@ -1,4 +1,4 @@
-package com.hjy.lecture.hhplus2weekcleanarchitecture.business.entity;
+package com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Embeddable                //2번
-@AllArgsConstructor		//전체생성자
-@NoArgsConstructor        //기본 생성자
-@EqualsAndHashCode        //equals, hashCode
+@Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 @Data
 public class LectureStudentId implements Serializable { //1번
 

@@ -1,10 +1,10 @@
 package com.hjy.lecture.hhplus2weekcleanarchitecture.business.service;
 
 import com.hjy.lecture.hhplus2weekcleanarchitecture.application.service.LectureStudentService;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.datasource.repository.LectureStudentRepository;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.business.entity.LectureStudent;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureRequestDTO;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureResponseDTO;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.infrastructure.repository.LectureStudentRepository;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.LectureStudent;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentRequestDTO;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,11 +35,11 @@ public class LectureStudentServiceTest {
         given(lectureStudentRepository.save(any(LectureStudent.class))).willReturn(lectureStudent);
 
         // when
-        LectureResponseDTO lectureResponseDTO = lectureStudentService.applyLecture(new LectureRequestDTO(lectureId, userId));
+        LectureStudentResponseDTO lectureStudentResponseDTO = lectureStudentService.applyLecture(new LectureStudentRequestDTO(lectureId, userId));
 
         // then
-        assertThat(lectureResponseDTO.getLectureId()).isEqualTo(lectureId);
-        assertThat(lectureResponseDTO.getUserId()).isEqualTo(userId);
+        assertThat(lectureStudentResponseDTO.getLectureId()).isEqualTo(lectureId);
+        assertThat(lectureStudentResponseDTO.getUserId()).isEqualTo(userId);
 
     }
 
@@ -49,9 +49,9 @@ public class LectureStudentServiceTest {
         long lectureId = 1L;
         long userId = 1L;
 
-        LectureRequestDTO lectureRequestDTO = new LectureRequestDTO();
-        lectureRequestDTO.setLectureId(lectureId);
-        lectureRequestDTO.setUserId(userId);
+        LectureStudentRequestDTO lectureStudentRequestDTO = new LectureStudentRequestDTO();
+        lectureStudentRequestDTO.setLectureId(lectureId);
+        lectureStudentRequestDTO.setUserId(userId);
 
         LectureStudent existingLectureStudent = LectureStudent.createLectureStudent(lectureId, userId);
 
@@ -60,7 +60,7 @@ public class LectureStudentServiceTest {
                 .willReturn(Optional.of(existingLectureStudent));
 
         // when & then
-        assertThatThrownBy(() -> lectureStudentService.applyLecture(lectureRequestDTO))
+        assertThatThrownBy(() -> lectureStudentService.applyLecture(lectureStudentRequestDTO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이미 수강신청한 강의입니다.");
 
@@ -74,17 +74,17 @@ public class LectureStudentServiceTest {
         long lectureId = 1L;
         long userId = 1L;
 
-        LectureRequestDTO lectureRequestDTO = new LectureRequestDTO();
-        lectureRequestDTO.setLectureId(lectureId);
-        lectureRequestDTO.setUserId(userId);
+        LectureStudentRequestDTO lectureStudentRequestDTO = new LectureStudentRequestDTO();
+        lectureStudentRequestDTO.setLectureId(lectureId);
+        lectureStudentRequestDTO.setUserId(userId);
 
         // findByLectureIdAndUserId가 Optional로 값을 반환하도록 Mock 설정
         given(lectureStudentRepository.countByLectureId_LectureId(lectureId))
-                .willReturn(30L);
+                .willReturn(30);
 
         // when & then
-        assertThatThrownBy(() -> lectureStudentService.applyLecture(lectureRequestDTO))
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> lectureStudentService.applyLecture(lectureStudentRequestDTO))
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessage("해당 강의는 정원이 초과되었습니다.");
 
         // verify (Repository 메서드가 호출되었는지 확인)

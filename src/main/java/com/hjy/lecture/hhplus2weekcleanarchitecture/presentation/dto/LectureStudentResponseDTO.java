@@ -11,11 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LectureResponseDTO {
+public class LectureStudentResponseDTO {
     private long lectureId;
-    private String lectureTitle;
-    private String lecturerName;
-    private LocalDateTime lectureStartDateTime;
-    private LocalDateTime lectureEndDateTime;
+    private long userId;
 
 }

@@ -1,6 +1,6 @@
 package com.hjy.lecture.hhplus2weekcleanarchitecture.datasource.entity;
 
-import com.hjy.lecture.hhplus2weekcleanarchitecture.business.entity.LectureStudent;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.LectureStudent;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
