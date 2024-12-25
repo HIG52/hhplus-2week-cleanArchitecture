@@ -23,4 +23,11 @@ public interface LectureRepository extends JpaRepository<Lecture, Long> {
     List<Lecture> findLecturesStartingOnDateWithAvailableSeats(
             @Param("lectureStartDateTime") LocalDateTime lectureStartDateTime
     );
+
+    @Query("""
+        SELECT l FROM LectureStudent ls
+        JOIN Lecture l ON l.lectureId = ls.lectureId.lectureId
+        WHERE ls.lectureId.userId = :userId
+    """)
+    List<Lecture> findLecturesAppliedByUserId(@Param("userId") Long userId);
 }

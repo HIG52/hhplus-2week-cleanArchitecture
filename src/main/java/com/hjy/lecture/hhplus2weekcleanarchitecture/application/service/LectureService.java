@@ -37,4 +37,23 @@ public class LectureService {
                 ))
                 .toList();
     }
+
+    public List<LectureResponseDTO> getAvailabledLectures(Long userId) {
+
+            List<Lecture> lectureList = lectureRepository.findLecturesAppliedByUserId(userId);
+
+            if (lectureList.isEmpty()) {
+                throw new IllegalArgumentException("신청한 특강이 존재하지 않습니다.");
+            }
+
+            return lectureList.stream()
+                    .map(lecture -> new LectureResponseDTO(
+                            lecture.getLectureId(),
+                            lecture.getLectureTitle(),
+                            lecture.getLecturerName(),
+                            lecture.getLectureStartDateTime(),
+                            lecture.getLectureEndDateTime()
+                    ))
+                    .toList();
+    }
 }
