@@ -29,18 +29,26 @@ public class LectureController {
     }
 
     @PostMapping("/api/v1/lectures/{lectureId}/apply")
-    public ResponseEntity<LectureStudentResponseDTO> applyLecture(@PathVariable Long lectureId, @RequestBody LectureStudentRequestDTO lectureStudentRequestDTO) {
+    public ResponseEntity<LectureStudentResponseDTO> applyLecture(
+            @PathVariable Long lectureId, @RequestBody LectureStudentRequestDTO lectureStudentRequestDTO) {
         lectureStudentRequestDTO.setLectureId(lectureId);
         return ResponseEntity.ok(lectureStudentService.applyLecture(lectureStudentRequestDTO));
     }
 
     @GetMapping("/api/v1/lectures/available/{lectureStartDate}")
     public ResponseEntity<List<LectureResponseDTO>> getAvailableLectures(
-            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate lectureStartDate
-    ) {
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate lectureStartDate) {
         // 자정으로 변환하여 LocalDateTime 생성
         LocalDateTime startDateTime = lectureStartDate.atStartOfDay();
         return ResponseEntity.ok(lectureService.getAvailableLectures(startDateTime));
     }
+
+    @GetMapping("/api/v1/users/{userId}/lectures/applied")
+    public ResponseEntity<List<LectureResponseDTO>> getAvailabledLectures(
+            @PathVariable Long userId) {
+        return ResponseEntity.ok(lectureService.getAvailabledLectures(userId));
+    }
+
+
 
 }

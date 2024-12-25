@@ -59,6 +59,13 @@ public class LectureServiceTest {
         return studentCounts;
     }
 
+    private static Map<Long, Long> LectureApplicantStudent() {
+        Map<Long, Long> student = new HashMap<>();
+        student.put(1L, 1L); // 강의1: 1L 학생이 수강
+        student.put(2L, 2L); // 강의2: 2L 학생이 수강
+        return student;
+    }
+
     @Test
     public void 날짜를_입력했을때_해당날짜에_해당하는_강의리스트만_반환한다() {
         // given
@@ -127,6 +134,52 @@ public class LectureServiceTest {
 
         // verify (Repository 메서드가 호출되었는지 확인)
         verify(lectureRepository).findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime);
+    }
+
+    @Test
+    public void userId를_입력했을때_신청한_강의리스트만_반환한다() {
+        // given
+        long userId = 1L;
+
+        List<Lecture> lectureList = LectureList();
+        Map<Long, Long> student = LectureApplicantStudent();
+
+        given(lectureRepository.findLecturesAppliedByUserId(userId))
+                .willAnswer(invocation -> lectureList.stream()
+                        .filter(lecture -> student.getOrDefault(lecture.getLectureId(), -1L) == userId)
+                        .toList());
+
+        // when
+        List<LectureResponseDTO> resultList = lectureService.getAvailabledLectures(userId);
+
+        // then
+        assertThat(resultList)
+                .extracting("lectureId", "lectureTitle", "lecturerName", "lectureStartDateTime", "lectureEndDateTime")
+                .containsExactlyInAnyOrder(
+                        tuple(1L, "강의1", "홍길일", LocalDateTime.of(2024, 12, 29, 11, 0), LocalDateTime.of(2024, 12, 29, 13, 0))
+                )
+                .doesNotContain(
+                        tuple(2L, "강의2", "홍길이", LocalDateTime.of(2024, 12, 30, 14, 0), LocalDateTime.of(2024, 12, 30, 16, 0))
+                );
+
+    }
+
+    @Test
+    public void userId를_입력했을때_신청한_강의가_없으면_IllegalArgumentException을던진다() {
+        // given
+        long userId = 3L;
+
+        // findByLectureIdAndUserId가 Optional로 값을 반환하도록 Mock 설정
+        given(lectureRepository.findLecturesAppliedByUserId(userId))
+                .willReturn(List.of());
+
+        // when & then
+        assertThatThrownBy(() -> lectureService.getAvailabledLectures(userId))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("신청한 특강이 존재하지 않습니다.");
+
+        // verify (Repository 메서드가 호출되었는지 확인)
+        verify(lectureRepository).findLecturesAppliedByUserId(userId);
     }
 
 }
