@@ -1,9 +1,10 @@
 package com.hjy.lecture.hhplus2weekcleanarchitecture.application.service;
 
-import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.repository.LectureStudentRepository;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.infrastructure.repository.LectureStudentRepository;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.LectureStudent;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureRequestDTO;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureResponseDTO;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentRequestDTO;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,13 @@ public class LectureStudentService {
         this.lectureStudentRepository = lectureStudentRepository;
     }
 
-    public LectureResponseDTO applyLecture(LectureRequestDTO lectureRequestDTO) {
+    public LectureStudentResponseDTO applyLecture(LectureStudentRequestDTO lectureStudentRequestDTO) {
         LectureStudent lectureStudent = LectureStudent.createLectureStudent(
-                lectureRequestDTO.getLectureId(),
-                lectureRequestDTO.getUserId()
+                lectureStudentRequestDTO.getLectureId(),
+                lectureStudentRequestDTO.getUserId()
         );
 
-        long currentStudentCount = lectureStudentRepository.countByLectureId_LectureId(lectureStudent.getLectureId().getLectureId());
+        int currentStudentCount = lectureStudentRepository.countByLectureId_LectureId(lectureStudent.getLectureId().getLectureId());
 
         if (currentStudentCount >= MAX_STUDENTS) {
             throw new IllegalStateException("해당 강의는 정원이 초과되었습니다.");
@@ -44,10 +45,10 @@ public class LectureStudentService {
 
         lectureStudentRepository.save(lectureStudent);
 
-        LectureResponseDTO lectureResponseDTO = new LectureResponseDTO();
-        lectureResponseDTO.setLectureId(lectureStudent.getLectureId().getLectureId());
-        lectureResponseDTO.setUserId(lectureStudent.getLectureId().getUserId());
-        return lectureResponseDTO;
+        LectureStudentResponseDTO lectureStudentResponseDTO = new LectureStudentResponseDTO();
+        lectureStudentResponseDTO.setLectureId(lectureStudent.getLectureId().getLectureId());
+        lectureStudentResponseDTO.setUserId(lectureStudent.getLectureId().getUserId());
+        return lectureStudentResponseDTO;
     }
 
 }

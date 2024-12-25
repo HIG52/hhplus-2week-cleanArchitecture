@@ -1,4 +1,4 @@
-package com.hjy.lecture.hhplus2weekcleanarchitecture.domain.repository;
+package com.hjy.lecture.hhplus2weekcleanarchitecture.infrastructure.repository;
 
 import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.LectureStudent;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.LectureStudentId;
@@ -12,5 +12,5 @@ public interface LectureStudentRepository extends JpaRepository<LectureStudent, 
 
     Optional<LectureStudent> findByLectureId_LectureIdAndLectureId_UserId(Long lectureId, Long userId);
 
-    long countByLectureId_LectureId(Long lectureId);
+    int countByLectureId_LectureId(Long lectureId);
 }

@@ -5,20 +5,22 @@ spring:
   application:
     name: hhplus-2week-cleanArchitecture
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         format_sql: true
+        use_sql_comments: true
   datasource:
     url: jdbc:mysql://localhost:3307/mysqldb
     username: user
     password: password
   logging:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
     level:
-      root: INFO
-      com.your.package: DEBUG
+      root: DEBUG  # 모든 로그를 DEBUG 수준으로 출력
+      org.hibernate.SQL: DEBUG  # Hibernate SQL 쿼리 로그
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Hibernate 파라미터 바인딩 로그
+      org.springframework: DEBUG  # Spring 관련 디버깅 로그
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
