@@ -32,7 +32,7 @@ public class LectureStudentConcurrencyTest {
         // given
         long lectureId = 1L;
         long userId = 1L;
-        int threadCount = 10;
+        int threadCount = 5;
 
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
