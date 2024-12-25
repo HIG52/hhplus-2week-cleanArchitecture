@@ -2,7 +2,6 @@ package com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.controller;
 
 import com.hjy.lecture.hhplus2weekcleanarchitecture.application.service.LectureService;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.application.service.LectureStudentService;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureRequestDTO;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureResponseDTO;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentRequestDTO;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentResponseDTO;
@@ -48,7 +47,5 @@ public class LectureController {
             @PathVariable Long userId) {
         return ResponseEntity.ok(lectureService.getAvailabledLectures(userId));
     }
-
-
 
 }
