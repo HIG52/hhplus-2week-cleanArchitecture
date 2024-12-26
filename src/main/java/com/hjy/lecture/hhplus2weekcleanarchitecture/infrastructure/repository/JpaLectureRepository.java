@@ -1,6 +1,7 @@
 package com.hjy.lecture.hhplus2weekcleanarchitecture.infrastructure.repository;
 
 import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.Lecture;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.LectureStudent;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LectureRepository extends JpaRepository<Lecture, Long> {
+public interface JpaLectureRepository extends JpaRepository<Lecture, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT l FROM Lecture l WHERE l.lectureId = :lectureId")

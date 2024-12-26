@@ -1,7 +1,8 @@
 package com.hjy.lecture.hhplus2weekcleanarchitecture.domain;
 
 import com.hjy.lecture.hhplus2weekcleanarchitecture.application.service.LectureStudentService;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.infrastructure.repository.LectureStudentRepository;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.Lecture;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.repository.LectureCoreRepository;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.LectureStudent;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentRequestDTO;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentResponseDTO;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -20,7 +22,7 @@ import static org.mockito.BDDMockito.*;
 public class LectureStudentServiceTest {
 
     @Mock
-    private LectureStudentRepository lectureStudentRepository;
+    private LectureCoreRepository lectureCoreRepository;
 
     @InjectMocks
     private LectureStudentService lectureStudentService;
@@ -31,8 +33,9 @@ public class LectureStudentServiceTest {
         long lectureId = 1L;
         long userId = 1L;
         LectureStudent lectureStudent = LectureStudent.createLectureStudent(lectureId, userId);
-
-        given(lectureStudentRepository.save(any(LectureStudent.class))).willReturn(lectureStudent);
+        given(lectureCoreRepository.findByIdWithLock(lectureId))
+                .willReturn(Optional.of(Lecture.createLecture(lectureId, "강의 제목", "강사명", LocalDateTime.of(2024, 12, 29, 11, 0), LocalDateTime.of(2024, 12, 29, 11, 0))));
+        given(lectureCoreRepository.saveLectureStudent(any(LectureStudent.class))).willReturn(lectureStudent);
 
         // when
         LectureStudentResponseDTO lectureStudentResponseDTO = lectureStudentService.applyLecture(new LectureStudentRequestDTO(lectureId, userId));
@@ -55,8 +58,10 @@ public class LectureStudentServiceTest {
 
         LectureStudent existingLectureStudent = LectureStudent.createLectureStudent(lectureId, userId);
 
+        given(lectureCoreRepository.findByIdWithLock(lectureId))
+                .willReturn(Optional.of(Lecture.createLecture(lectureId, "강의 제목", "강사명", LocalDateTime.of(2024, 12, 29, 11, 0), LocalDateTime.of(2024, 12, 29, 11, 0))));
         // findByLectureIdAndUserId가 Optional로 값을 반환하도록 Mock 설정
-        given(lectureStudentRepository.findByLectureId_LectureIdAndLectureId_UserId(lectureId, userId))
+        given(lectureCoreRepository.findByLectureId_LectureIdAndLectureId_UserId(lectureId, userId))
                 .willReturn(Optional.of(existingLectureStudent));
 
         // when & then
@@ -65,7 +70,7 @@ public class LectureStudentServiceTest {
                 .hasMessage("이미 수강신청한 강의입니다.");
 
         // verify (Repository 메서드가 호출되었는지 확인)
-        verify(lectureStudentRepository).findByLectureId_LectureIdAndLectureId_UserId(lectureId, userId);
+        verify(lectureCoreRepository).findByLectureId_LectureIdAndLectureId_UserId(lectureId, userId);
     }
 
     @Test
@@ -79,7 +84,9 @@ public class LectureStudentServiceTest {
         lectureStudentRequestDTO.setUserId(userId);
 
         // findByLectureIdAndUserId가 Optional로 값을 반환하도록 Mock 설정
-        given(lectureStudentRepository.countByLectureId_LectureId(lectureId))
+        given(lectureCoreRepository.findByIdWithLock(lectureId))
+                .willReturn(Optional.of(Lecture.createLecture(lectureId, "강의 제목", "강사명", LocalDateTime.of(2024, 12, 29, 11, 0), LocalDateTime.of(2024, 12, 29, 11, 0))));
+        given(lectureCoreRepository.countByLectureId_LectureId(lectureId))
                 .willReturn(30);
 
         // when & then
@@ -88,6 +95,6 @@ public class LectureStudentServiceTest {
                 .hasMessage("해당 강의는 정원이 초과되었습니다.");
 
         // verify (Repository 메서드가 호출되었는지 확인)
-        verify(lectureStudentRepository).countByLectureId_LectureId(lectureId);
+        verify(lectureCoreRepository).countByLectureId_LectureId(lectureId);
     }
 }

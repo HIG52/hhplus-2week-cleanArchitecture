@@ -1,10 +1,8 @@
 package com.hjy.lecture.hhplus2weekcleanarchitecture.domain;
 
 import com.hjy.lecture.hhplus2weekcleanarchitecture.application.service.LectureStudentService;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.infrastructure.repository.LectureRepository;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.infrastructure.repository.LectureStudentRepository;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.repository.LectureCoreRepository;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentRequestDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +23,7 @@ public class LectureStudentConcurrencyTest {
     private LectureStudentService lectureStudentService;
 
     @Autowired
-    private LectureStudentRepository lectureStudentRepository;
+    private LectureCoreRepository lectureCoreRepository;
 
     @Test
     public void 한유저가_동시에_신청하였을경우_최초1회만_저장된다() throws InterruptedException {
@@ -57,7 +55,7 @@ public class LectureStudentConcurrencyTest {
         executorService.shutdown();
 
         // then
-        int actualCount = lectureStudentRepository.countByLectureId_LectureId(lectureId);
+        int actualCount = lectureCoreRepository.countByLectureId_LectureId(lectureId);
         assertThat(actualCount).isEqualTo(1); // 단 하나의 신청만 저장되어야 함
     }
 
@@ -96,7 +94,7 @@ public class LectureStudentConcurrencyTest {
         executorService.shutdown();
 
         // then
-        int actualCount = lectureStudentRepository.countByLectureId_LectureId(lectureId);
+        int actualCount = lectureCoreRepository.countByLectureId_LectureId(lectureId);
         assertThat(actualCount).isEqualTo(maxStudents); // 최대 30명의 사용자만 저장
         assertThat(successCount.get()).isEqualTo(maxStudents); // 성공한 요청 수
         assertThat(failCount.get()).isEqualTo(threadCount - maxStudents); // 실패한 요청 수

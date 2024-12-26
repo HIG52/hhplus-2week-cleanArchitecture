@@ -2,9 +2,8 @@ package com.hjy.lecture.hhplus2weekcleanarchitecture.domain;
 
 import com.hjy.lecture.hhplus2weekcleanarchitecture.application.service.LectureService;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.Lecture;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.infrastructure.repository.LectureRepository;
+import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.repository.LectureCoreRepository;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureResponseDTO;
-import com.hjy.lecture.hhplus2weekcleanarchitecture.presentation.dto.LectureStudentRequestDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +25,7 @@ public class LectureServiceTest {
     public static final int MAX_STUDENT = 30;
 
     @Mock
-    private LectureRepository lectureRepository;
+    private LectureCoreRepository lectureCoreRepository;
 
     @InjectMocks
     private LectureService lectureService;
@@ -73,7 +72,7 @@ public class LectureServiceTest {
 
         List<Lecture> lectureList = LectureList();
 
-        given(lectureRepository.findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime))
+        given(lectureCoreRepository.findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime))
                 .willReturn(lectureList);
 
         // when
@@ -96,7 +95,7 @@ public class LectureServiceTest {
         List<Lecture> lectureList = LectureList();
         Map<Long, Integer> studentCounts = LectureStudentCounts();
 
-        given(lectureRepository.findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime))
+        given(lectureCoreRepository.findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime))
                 .willAnswer(invocation -> {
                     // 강의 목록에서 30명 이하 조건을 필터링
                     return lectureList.stream()
@@ -124,7 +123,7 @@ public class LectureServiceTest {
         LocalDateTime lectureStartDateTime = LocalDateTime.of(2024, 12, 29, 0, 0);
 
         // findByLectureIdAndUserId가 Optional로 값을 반환하도록 Mock 설정
-        given(lectureRepository.findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime))
+        given(lectureCoreRepository.findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime))
                 .willReturn(List.of());
 
         // when & then
@@ -133,7 +132,7 @@ public class LectureServiceTest {
                 .hasMessage("해당 날짜에 신청가능한 특강이 존재하지 않습니다.");
 
         // verify (Repository 메서드가 호출되었는지 확인)
-        verify(lectureRepository).findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime);
+        verify(lectureCoreRepository).findLecturesStartingOnDateWithAvailableSeats(lectureStartDateTime);
     }
 
     @Test
@@ -144,7 +143,7 @@ public class LectureServiceTest {
         List<Lecture> lectureList = LectureList();
         Map<Long, Long> student = LectureApplicantStudent();
 
-        given(lectureRepository.findLecturesAppliedByUserId(userId))
+        given(lectureCoreRepository.findLecturesAppliedByUserId(userId))
                 .willAnswer(invocation -> lectureList.stream()
                         .filter(lecture -> student.getOrDefault(lecture.getLectureId(), -1L) == userId)
                         .toList());
@@ -170,7 +169,7 @@ public class LectureServiceTest {
         long userId = 3L;
 
         // findByLectureIdAndUserId가 Optional로 값을 반환하도록 Mock 설정
-        given(lectureRepository.findLecturesAppliedByUserId(userId))
+        given(lectureCoreRepository.findLecturesAppliedByUserId(userId))
                 .willReturn(List.of());
 
         // when & then
@@ -179,7 +178,7 @@ public class LectureServiceTest {
                 .hasMessage("신청한 특강이 존재하지 않습니다.");
 
         // verify (Repository 메서드가 호출되었는지 확인)
-        verify(lectureRepository).findLecturesAppliedByUserId(userId);
+        verify(lectureCoreRepository).findLecturesAppliedByUserId(userId);
     }
 
 }
