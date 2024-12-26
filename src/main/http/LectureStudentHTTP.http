@@ -1,0 +1,15 @@
+### 강의 수강신청시 인원 등록
+POST http://localhost:8080/api/v1/lectures/3/apply
+Content-Type: application/json
+
+{
+  "userId" : 1
+}
+
+### 신청가능한 강의 목록
+GET http://localhost:8080/api/v1/lectures/available/2025-01-01
+Content-Type: application/json
+
+### 신청한 강의 목록
+GET http://localhost:8080/api/v1/users/1/lectures/applied
+Content-Type: application/json
