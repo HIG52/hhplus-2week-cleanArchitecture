@@ -1,4 +1,4 @@
-package com.hjy.lecture.hhplus2weekcleanarchitecture.business.service;
+package com.hjy.lecture.hhplus2weekcleanarchitecture.domain;
 
 import com.hjy.lecture.hhplus2weekcleanarchitecture.application.service.LectureService;
 import com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity.Lecture;
