@@ -2,9 +2,11 @@ package com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
 @Table(name = "lecture")

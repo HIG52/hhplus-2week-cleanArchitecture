@@ -2,10 +2,12 @@ package com.hjy.lecture.hhplus2weekcleanarchitecture.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Table(name = "lecture_student")
 public class LectureStudent { // 강의 수강 신청 정보
